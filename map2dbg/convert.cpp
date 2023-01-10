@@ -331,7 +331,13 @@ bool TDebugFile::End() {
 	}
   
 	// WriteSstModule - modname
-	fwrite( modname.c_str(), szModName, 1, file );
+	unsigned char namelen = modname.Length();
+	fwrite( &namelen, 1, 1, file ); // write the length byte
+	fwrite( modname.c_str(), namelen, 1, file ); // write the string
+	// write the padding bytes (if szModName is longer than namelen+1)
+	unsigned char pad = 0;
+	for (unsigned int i = 0; i < szModName - (namelen+1); i++ )
+		fwrite( &pad, 1, 1, file );
   
 	//
 	// WriteGlobalPub
