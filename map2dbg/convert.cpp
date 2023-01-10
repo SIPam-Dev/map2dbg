@@ -331,7 +331,7 @@ bool TDebugFile::End() {
 	}
   
 	// WriteSstModule - modname
-	unsigned char namelen = modname.Length();
+	unsigned char namelen = modname.length();
 	fwrite( &namelen, 1, 1, file ); // write the length byte
 	fwrite( modname.c_str(), namelen, 1, file ); // write the string
 	// write the padding bytes (if szModName is longer than namelen+1)
